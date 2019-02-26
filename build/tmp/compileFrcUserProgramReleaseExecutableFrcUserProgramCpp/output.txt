@@ -1,0 +1,28 @@
+See file:///C:/Users/dagge/Documents/frc/SpaceBot2.0/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
+compiling LockOnAndApproachGoal.cpp failed.
+In file included from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\include/Commands/LockOnAndApproachGoal.h:27:0,
+                 from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\cpp\Commands\LockOnAndApproachGoal.cpp:26:
+C:\Users\dagge\Documents\frc\SpaceBot2.0\build\tmp\expandedArchives\wpiutil-cpp-2019.3.1-headers.zip_5e342f497d78cde8042c25fea7a66506/llvm/ArrayRef.h:14:2: warning: #warning is a GCC extension
+ #warning "llvm/ArrayRef.h is deprecated; include wpi/ArrayRef.h instead"
+  ^~~~~~~
+C:\Users\dagge\Documents\frc\SpaceBot2.0\build\tmp\expandedArchives\wpiutil-cpp-2019.3.1-headers.zip_5e342f497d78cde8042c25fea7a66506/llvm/ArrayRef.h:14:2: warning: #warning "llvm/ArrayRef.h is deprecated; include wpi/ArrayRef.h instead" [-Wcpp]
+In file included from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\cpp\Commands\LockOnAndApproachGoal.cpp:26:0:
+C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\include/Commands/LockOnAndApproachGoal.h:30:49: fatal error: src\main\include\Subsystems\Arduino.h: No such file or directory
+ #include "src\main\include\Subsystems\Arduino.h"
+                                                 ^
+compilation terminated.
+
+compiling OI.cpp failed.
+In file included from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\include/Commands/LockOnAndApproachGoal.h:27:0,
+                 from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\cpp\OI.cpp:27:
+C:\Users\dagge\Documents\frc\SpaceBot2.0\build\tmp\expandedArchives\wpiutil-cpp-2019.3.1-headers.zip_5e342f497d78cde8042c25fea7a66506/llvm/ArrayRef.h:14:2: warning: #warning is a GCC extension
+ #warning "llvm/ArrayRef.h is deprecated; include wpi/ArrayRef.h instead"
+  ^~~~~~~
+C:\Users\dagge\Documents\frc\SpaceBot2.0\build\tmp\expandedArchives\wpiutil-cpp-2019.3.1-headers.zip_5e342f497d78cde8042c25fea7a66506/llvm/ArrayRef.h:14:2: warning: #warning "llvm/ArrayRef.h is deprecated; include wpi/ArrayRef.h instead" [-Wcpp]
+In file included from C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\cpp\OI.cpp:27:0:
+C:\Users\dagge\Documents\frc\SpaceBot2.0\src\main\include/Commands/LockOnAndApproachGoal.h:30:49: fatal error: src\main\include\Subsystems\Arduino.h: No such file or directory
+ #include "src\main\include\Subsystems\Arduino.h"
+                                                 ^
+compilation terminated.
+
+Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///C:/Users/dagge/Documents/frc/SpaceBot2.0/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.

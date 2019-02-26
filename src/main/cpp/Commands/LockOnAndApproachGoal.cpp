@@ -9,15 +9,18 @@
 // it from being updated in the future.
 
 
-//Progress -> Full Automation   %49.5
+//Progress -> Full Automation   %41
 //Progress -> Lock On           %45
 
 //Determine Angle From NetworkTables                            0
+//Determine Distance from Rocket                                0
 //Create System to turn to angle                                #
 //Create System to get exact location of Rocket                 0
 //Create System to compute trajectory                           #
 //Create System to drive in trajectory                          #
 //Refine/Streamline/Complete                                    0
+
+
 
 
 #include "Commands/LockOnAndApproachGoal.h"
@@ -81,6 +84,8 @@ void LockOnAndApproachGoal::GetTargetAngle(){
 
     //do stuff
 
+    double targetAngle = 15.0;      //Dummy Value just for testing
+
 }
 
 void LockOnAndApproachGoal::GetNetworkTable(){
@@ -109,10 +114,14 @@ void LockOnAndApproachGoal::GetTargetLocation(){
 
     centerX = centerX + VisionOffset;
 
-    double rocketLocation [] = {centerX, centerY}; 
+    double cRocketLocation [] = {centerX, centerY};   //Rocket location relative to the jetson camera data
+
 /////////////////////////////////////////////////////////////New Code//////////////////////////////////////////
 
+    double realX = sin(targetAngle)*distFromRocket;       //Determine X relative to the robot (needs provisions for left angle!!)
+    double realY = cos(targetAngle)*distFromRocket;       //Determine Y relative to the robot (needs provisions for left angle!!)
     
+    double rocketLocation[] = {realX, realY};
 
 }
 
