@@ -8,7 +8,15 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+build/
+gradle/
+.gradle/
+.vscode/
+.wpilib/
+vernderdeps/
+gradlew
+*~
+src/test/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
