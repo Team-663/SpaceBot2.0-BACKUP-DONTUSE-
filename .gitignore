@@ -13,10 +13,14 @@ gradle/
 .gradle/
 .vscode/
 .wpilib/
-vernderdeps/
+vendordeps/
 gradlew
 *~
 src/test/
+BSD*
+gradlew.bat
+settings.gradle
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
