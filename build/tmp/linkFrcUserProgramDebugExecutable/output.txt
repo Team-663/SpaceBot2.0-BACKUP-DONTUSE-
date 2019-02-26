@@ -1,4 +1,0 @@
-See file:///C:/Users/dagge/Documents/frc/SpaceBot2.0/build/tmp/linkFrcUserProgramDebugExecutable/output.txt for all output for linkFrcUserProgramDebugExecutable.
-linking frcUserProgram successful.
-
-Finished linkFrcUserProgramDebugExecutable, see full log file:///C:/Users/dagge/Documents/frc/SpaceBot2.0/build/tmp/linkFrcUserProgramDebugExecutable/output.txt.
