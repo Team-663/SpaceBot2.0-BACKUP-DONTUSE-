@@ -20,6 +20,7 @@ src/test/
 BSD*
 gradlew.bat
 settings.gradle
+build.gradle
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
