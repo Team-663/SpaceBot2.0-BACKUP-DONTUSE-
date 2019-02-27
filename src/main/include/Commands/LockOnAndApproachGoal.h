@@ -70,6 +70,7 @@ private:
 	void ApproachRocket();
 	void DetermineTrajectory();
 	void GotoRocket();
+	double ConvertToDouble(uint32_t dist1);
 };
 
 #endif

@@ -9,11 +9,11 @@
 // it from being updated in the future.
 
 
-//Progress -> Full Automation   %41
+//Progress -> Full Automation   %57
 //Progress -> Lock On           %45
 
 //Determine Angle From NetworkTables                            0
-//Determine Distance from Rocket                                0
+//Determine Distance from Rocket                                #
 //Create System to turn to angle                                #
 //Create System to get exact location of Rocket                 0
 //Create System to compute trajectory                           #
@@ -89,7 +89,7 @@ void LockOnAndApproachGoal::GetTargetAngle(){
 }
 
 void LockOnAndApproachGoal::GetNetworkTable(){
-    table = NetworkTable::GetTable("GRIP/myContoursReport");
+    table = NetworkTable::GetTable("JETSON/myContoursReport");
 }
 
 void LockOnAndApproachGoal::TurnToAngle(){
@@ -118,11 +118,18 @@ void LockOnAndApproachGoal::GetTargetLocation(){
 
 /////////////////////////////////////////////////////////////New Code//////////////////////////////////////////
 
+    double distFromRocket = ConvertToDouble(Robot::arduino->GetDistanceSensor());
+
     double realX = sin(targetAngle)*distFromRocket;       //Determine X relative to the robot (needs provisions for left angle!!)
     double realY = cos(targetAngle)*distFromRocket;       //Determine Y relative to the robot (needs provisions for left angle!!)
     
     double rocketLocation[] = {realX, realY};
 
+}
+
+double LockOnAndApproachGoal::ConvertToDouble(uint32_t dist1){
+    double dist2 = (double)dist1; //Convert to sensor unsigned int to double
+    return dist2;
 }
 
 
