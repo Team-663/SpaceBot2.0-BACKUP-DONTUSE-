@@ -9,13 +9,13 @@
 // it from being updated in the future.
 
 
-//Progress -> Full Automation   %57
-//Progress -> Lock On           %45
+//Progress -> Full Automation   %88
+//Progress -> Lock On           COMPLETE
 
-//Determine Angle From NetworkTables                            0
+//Determine Angle From NetworkTables                            #
 //Determine Distance from Rocket                                #
 //Create System to turn to angle                                #
-//Create System to get exact location of Rocket                 0
+//Create System to get exact location of Rocket                 #
 //Create System to compute trajectory                           #
 //Create System to drive in trajectory                          #
 //Refine/Streamline/Complete                                    0
@@ -41,10 +41,7 @@ void LockOnAndApproachGoal::Initialize() {
     currentAngle = Robot::driveTrain->GetGyroBearing();
     GetNetworkTable();
     GetTargetLocation();
-    GetTargetAngle();
-    if(useTrajectorySys){
-        DetermineTrajectory();
-    }
+    double targetAngle = GetTargetAngle();
 
 }
 
@@ -78,13 +75,17 @@ void LockOnAndApproachGoal::Interrupted() {
 
 
 
-void LockOnAndApproachGoal::GetTargetAngle(){
+double LockOnAndApproachGoal::GetTargetAngle(){
     
+    double imageWidth = xRes;
+    double fov = ConvertToRad(hFov);
 
+    long ppa = fov/xRes;
 
-    //do stuff
+    double rX = GetTargetLocationCam(0);
 
-    double targetAngle = 15.0;      //Dummy Value just for testing
+    double angle = rX*ppa;
+    return angle;
 
 }
 
@@ -103,7 +104,7 @@ void LockOnAndApproachGoal::TurnToAngle(){
     Robot::driveTrain->RotateRobot(spinRate);
 }
 
-void LockOnAndApproachGoal::GetTargetLocation(){
+double LockOnAndApproachGoal::GetTargetLocationCam(int t){
     //This currently only gets location of rocket from jetson, not reletive to the robot!
 
     std::vector<double> t_centerX = table->GetNumberArray("centerX", llvm::ArrayRef<double>());
@@ -115,9 +116,17 @@ void LockOnAndApproachGoal::GetTargetLocation(){
     centerX = centerX + VisionOffset;
 
     double cRocketLocation [] = {centerX, centerY};   //Rocket location relative to the jetson camera data
+    
+    if(t = 0){
+        return cRocketLocation[0];
+    }
+    else{
+        return cRocketLocation[1];
+    }
+}
 
-/////////////////////////////////////////////////////////////New Code//////////////////////////////////////////
 
+void LockOnAndApproachGoal::GetTargetLocation(){
     double distFromRocket = ConvertToDouble(Robot::arduino->GetDistanceSensor());
 
     double realX = sin(targetAngle)*distFromRocket;       //Determine X relative to the robot (needs provisions for left angle!!)
@@ -132,9 +141,18 @@ double LockOnAndApproachGoal::ConvertToDouble(uint32_t dist1){
     return dist2;
 }
 
+double LockOnAndApproachGoal::ConvertToRad(double deg){
+    double rad = deg*(M_PI/180);
+    return rad;
+}
+
+double LockOnAndApproachGoal::ConvertToDeg(double rad){
+    double deg = rad*(180/M_PI);
+    return deg;
+}
 
 
-void LockOnAndApproachGoal::DetermineTrajectory(){
+double LockOnAndApproachGoal::GetTrajectory(int q, double trajTime){
     //This will determine the circular trajectory of the robot to the rocket
     //This may be moved to the jetson to relive computational strain
 
@@ -158,7 +176,7 @@ void LockOnAndApproachGoal::DetermineTrajectory(){
         double x1 = rocketLocation[0];      //Target X
         double y1 = rocketLocation[1];      //Target Y
 
-        double t;                           //Time
+        double t = trajTime;                           //Time
         double t0 = 0.0;                    //Initial Time
         double t1;                          //Computed Final Time
 
@@ -180,7 +198,7 @@ void LockOnAndApproachGoal::DetermineTrajectory(){
         double x0 = 0.0;                     //Initial X
         double y0 = 0.0;                     //Initial Y
         double THYT0 = currentAngle;         //Initial Angle
-        double t;                            //Time
+        double t = trajTime;                            //Time
         double t0 = 0.0;                     //Initial Time
         double s = trajSpd;                  //Speed
 
@@ -194,17 +212,37 @@ void LockOnAndApproachGoal::DetermineTrajectory(){
         double trajectory[] = {x0, y0, THYT, x, y};
     }
 
+    if(q = 0){
+        return trajectory[0];
+    }
+    else if(q = 1){
+        return trajectory[1];
+    }
+    else if(q = 2){
+        return trajectory[2];
+    }
+    else if(q = 3){
+        return trajectory[3];
+    }
+    else if(q = 4){
+        return trajectory[4];
+    }
+    
 }
 
 void LockOnAndApproachGoal::GotoRocket(){
-    double xdif = abs(rocketLocation[0] - trajectory[3]);
-    double ydif = abs(rocketLocation[1] - trajectory[4]);
-
     auto start_time = std::chrono::steady_clock::now();
-
+    double xdif;
+    double ydif;
     while(xdif>4  && ydif>4){
         auto current_time = std::chrono::steady_clock::now();
-        double rotaion = trajectory[2]*std::chrono::duration_cast<std::chrono::seconds>(current_time-start_time).count();
+        double time_past = std::chrono::duration_cast<std::chrono::seconds>(current_time-start_time).count();
+
+        double turnAngle = GetTrajectory(2, time_past);
+        xdif = abs(rocketLocation[0] - GetTrajectory(3, time_past));
+        ydif = abs(rocketLocation[1] - GetTrajectory(4, time_past));
+        
+        double rotaion = turnAngle*time_past;
 
         Robot::driveTrain->ArcadeDrive(trajSpd, rotaion);
     }
