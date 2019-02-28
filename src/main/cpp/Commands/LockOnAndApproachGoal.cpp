@@ -115,7 +115,31 @@ double LockOnAndApproachGoal::GetTargetLocationCam(int t){
 
     centerX = centerX + VisionOffset;
 
-    double cRocketLocation [] = {centerX, centerY};   //Rocket location relative to the jetson camera data
+    if(centerX < xRes/2){
+        centerX = centerX * -1.0;
+        centerX = centerX + (xRes/2);
+        centerX = centerX * -1.0;
+    }
+    else if(centerX = xRes/2){
+        centerX = 0;
+    }
+    else if(centerX > xRes/2){
+        centerX = centerX - (xRes/2);
+    }
+
+    if(centerY < yRes/2){
+        centerY = centerY * -1.0;
+        centerY = centerY + yRes/2);
+        centerY = centerY * -1.0;
+    }
+    else if(centerY = yRes/2){
+        centerY = 0;
+    }
+    else if(centerY > yRes/2){
+        centerY = centerY - (yRes/2);
+    }
+
+    double cRocketLocation [] = {centerX, centerY};   //Rocket location relative to the center of jetson camera data
     
     if(t = 0){
         return cRocketLocation[0];
