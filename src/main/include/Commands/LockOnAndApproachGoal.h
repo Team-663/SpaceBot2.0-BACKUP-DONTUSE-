@@ -72,7 +72,7 @@ private:
 	void GetTargetLocation();
 	double GetTargetAngle();
 	void GetNetworkTable();
-	void TurnToAngle();
+	void TurnToAngle(double targetAngle);
 	void ApproachRocket();
 	double GetTrajectory(int q, double trajTime);
 	void GotoRocket();

@@ -93,7 +93,7 @@ void LockOnAndApproachGoal::GetNetworkTable(){
     table = NetworkTable::GetTable("myContoursReport");
 }
 
-void LockOnAndApproachGoal::TurnToAngle(){
+void LockOnAndApproachGoal::TurnToAngle(targetAngle){
     //Difference between target and current angle
     t_error = currentAngle - targetAngle;
 
@@ -255,6 +255,11 @@ double LockOnAndApproachGoal::GetTrajectory(int q, double trajTime){
 }
 
 void LockOnAndApproachGoal::GotoRocket(){
+    double targetAngle = GetTargetAngle();
+    TurnToAngle(targetAngle);
+    GetTargetLocation();
+    TurnToAngle(-1.0*targetAngle);
+    
     auto start_time = std::chrono::steady_clock::now();
     double xdif;
     double ydif;
