@@ -29,13 +29,15 @@ void DriveByJoystick::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveByJoystick::Execute() {
+
     double motorL = 0.0;
     double motorR = 0.0;
     
     
     motorL = Robot::oi->getDeadZoneCorrected(Robot::oi->getJoyL()->GetRawAxis(1));
 	motorR = Robot::oi->getDeadZoneCorrected(Robot::oi->getJoyR()->GetRawAxis(1));
-
+    //motorL = Robot::oi->getJoyL()->GetRawAxis(1);
+    //motorR = Robot::oi->getJoyR()->GetRawAxis(1);
     
 	Robot::driveTrain->TankDrive(motorL, motorR);
 
@@ -48,6 +50,7 @@ bool DriveByJoystick::IsFinished() {
 
 // Called once after isFinished returns true
 void DriveByJoystick::End() {
+    Robot::driveTrain->TankDrive(0.0, 0.0);
 
 }
 

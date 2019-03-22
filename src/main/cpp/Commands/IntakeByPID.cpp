@@ -33,24 +33,7 @@ void IntakeByPID::Execute() {
     bool change = false;
     int dpad = Robot::oi->GetXboxDPad();
     int lBump = Robot::oi->GetXboxBumpL();
-    /*
-    frc::SmartDashboard::PutNumber("XBOX_DPAD", dpad);
-    switch (dpad)
-    {
-        case E_DPAD_UP: 
-            intake = Arm::E_INTAKE_UP;
-            change = true;
-            break;
-        case E_DPAD_RIGHT:
-            intake = Arm::E_INTAKE_OUT;
-            change = true;
-            break;
-        case E_DPAD_DOWN: 
-            intake = Arm::E_INTAKE_DOWN;
-            change = true;
-            break;
-    }
-*/
+  
     intake = (Arm::E_INTAKE_POSITION)Robot::arm->GetIntakeSetting();
     if (intake != Arm::E_INTAKE_INVALID)
     {
@@ -71,65 +54,6 @@ void IntakeByPID::Execute() {
         
 
     }
-/*
-    if (lBump)
-    {
-        if (Robot::oi->GetXboxA())
-        {
-            arm = Arm::E_ARM_DOWN;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxB())
-        {
-            arm = Arm::E_ARM_MID_HATCH;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxY())
-        {
-            arm = Arm::E_ARM_HIGH_HATCH;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxX())
-        {
-            arm = Arm::E_ARM_LOAD;
-            change = true;
-        }
-    }
-    else
-    {
-        if (Robot::oi->GetXboxA())
-        {
-            arm = Arm::E_ARM_DOWN;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxB())
-        {
-            arm = Arm::E_ARM_MID_BALL;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxY())
-        {
-            arm = Arm::E_ARM_HIGH_BALL;
-            change = true;
-        }
-
-        if (Robot::oi->GetXboxX())
-        {
-            arm = Arm::E_ARM_CARGO_BALL;
-            change = true;
-        }
-    }
-
-    if (arm != )
-    {
-        Robot::arm->SetArmPositionWithPID(arm);
-    }
-    */
 
     Robot::arm->SpinIntakeByXbox();
 }
