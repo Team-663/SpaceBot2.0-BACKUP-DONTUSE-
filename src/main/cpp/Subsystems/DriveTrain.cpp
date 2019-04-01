@@ -134,6 +134,14 @@ void DriveTrain::RotateRobot(double mag)
 	robotDrive->TankDrive(mag, -1.0*mag, false);
 }
 
+void DriveTrain::SetClimbSolenoid(bool up)
+{
+    if (up)
+        climbSolenoid->Set(frc::DoubleSolenoid::kReverse);
+    else
+        climbSolenoid->Set(frc::DoubleSolenoid::kForward);
+}
+
 // TODO: SAM PUT THE NETWORK TABLE DATA HERE
 double DriveTrain::GetVisionTargetOffset()
 {

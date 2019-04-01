@@ -31,6 +31,7 @@ void ClawByJoystick::Initialize() {
 void ClawByJoystick::Execute() {
     int l1_b = Robot::oi->getJoyL()->GetRawButton(2);
     int r1_b = Robot::oi->getJoyR()->GetRawButton(2);
+
     //frc::SmartDashboard::PutNumber("ClawButton", b);
     if (l1_b || r1_b)
 	{
@@ -43,8 +44,11 @@ void ClawByJoystick::Execute() {
         Robot::claw->SetClawSolenoid(frc::DoubleSolenoid::kForward);
     }
 
-    double tl = Robot::oi->GetXboxTriggerLeft() + Robot::oi->getJoyL()->GetRawButton(1);
-	double tr = Robot::oi->GetXboxTriggerRight() + Robot::oi->getJoyR()->GetRawButton(1);
+    //double tl = Robot::oi->GetXboxTriggerLeft() + Robot::oi->getJoyL()->GetRawButton(1);
+	//double tr = Robot::oi->GetXboxTriggerRight() + Robot::oi->getJoyR()->GetRawButton(1);
+    double tl = Robot::oi->getJoyL()->GetRawButton(1);
+    double tr = Robot::oi->getJoyR()->GetRawButton(1);
+
 	double clawSpeed = 0.0;
 	
 	if ( (tl != 0.0) ^ (tr != 0.0))
@@ -56,7 +60,6 @@ void ClawByJoystick::Execute() {
 	}
 
     Robot::claw->SetClawMotors(clawSpeed);
-
 }
 
 // Make this return true when this Command no longer needs to run execute()

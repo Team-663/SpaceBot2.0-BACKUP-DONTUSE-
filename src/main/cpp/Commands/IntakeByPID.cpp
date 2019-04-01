@@ -31,28 +31,41 @@ void IntakeByPID::Initialize() {
 void IntakeByPID::Execute() {
     Arm::E_INTAKE_POSITION intake = Arm::E_INTAKE_INVALID;
     bool change = false;
-    int dpad = Robot::oi->GetXboxDPad();
-    int lBump = Robot::oi->GetXboxBumpL();
-  
-    intake = (Arm::E_INTAKE_POSITION)Robot::arm->GetIntakeSetting();
-    if (intake != Arm::E_INTAKE_INVALID)
+   
+    //int dpad = Robot::oi->GetXboxDPad();
+    //int lBump = Robot::oi->GetXboxBumpL();
+    double xboxLeftStick = Robot::oi->GetXboxLeftY(true);
+    double xboxRightStick = Robot::oi->GetXboxRightY(true);
+
+    int useXbox = Robot::oi->GetEndGameSafetySwitch();
+
+    if (useXbox == 0) // Normal operation, use arcade buttons for PID input
     {
-        frc::SmartDashboard::PutNumber("IntakePIDSetting", intake);
-        Robot::arm->SetIntakePIDPosition(intake);
+        intake = (Arm::E_INTAKE_POSITION)Robot::arm->GetIntakeSetting();
+        if (intake != Arm::E_INTAKE_INVALID)
+        {
+            frc::SmartDashboard::PutNumber("IntakePIDSetting", intake);
+            Robot::arm->SetIntakePIDPosition(intake);
+        }
+
+        Arm::E_ARM_POSITION arm = Arm::E_ARM_INVALID;
+
+        arm = (Arm::E_ARM_POSITION)Robot::arm->GetArmHeightSetting();
+        if (arm != Arm::E_ARM_INVALID)
+        {
+            Arm::E_ARM_POSITION currArm = (Arm::E_ARM_POSITION)Robot::arm->GetEnumSetPoint();
+            if (!change && (currArm != arm))
+                Robot::arm->SetIntakePIDPosition(Arm::E_INTAKE_DOWN);
+
+            Robot::arm->SetArmPositionWithPID(arm);
+            
+
+        }
     }
-
-    Arm::E_ARM_POSITION arm = Arm::E_ARM_INVALID;
-
-    arm = (Arm::E_ARM_POSITION)Robot::arm->GetArmHeightSetting();
-    if (arm != Arm::E_ARM_INVALID)
+    else // Endgame only, use xbox joysticks
     {
-        Arm::E_ARM_POSITION currArm = (Arm::E_ARM_POSITION)Robot::arm->GetEnumSetPoint();
-        if (!change && (currArm != arm))
-            Robot::arm->SetIntakePIDPosition(Arm::E_INTAKE_DOWN);
-
-        Robot::arm->SetArmPositionWithPID(arm);
-        
-
+        Robot::arm->SetIntakeArmMotor(xboxLeftStick);
+        Robot::arm->SetArmMotorSpeed(xboxRightStick);
     }
 
     Robot::arm->SpinIntakeByXbox();

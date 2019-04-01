@@ -88,6 +88,7 @@ public:
 	void SetBrakeMode();
 	void SetCoastMode();
 	void RotateRobot(double mag);
+	void SetClimbSolenoid(bool up);
 	double GetVisionTargetOffset();
 	double GetGyroBearing();
 	void Stop();

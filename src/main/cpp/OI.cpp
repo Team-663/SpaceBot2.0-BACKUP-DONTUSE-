@@ -187,3 +187,8 @@ bool OI::GetIntakeLeverDown()
    return _intakeLeverDown->Get();
 }
 
+int OI::GetEndGameSafetySwitch()
+{
+   return arcadePanel->GetRawButton(9);
+}
+

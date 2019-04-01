@@ -83,6 +83,7 @@ public:
 	int GetXboxStartR();
 	bool GetIntakeLeverUp();
 	bool GetIntakeLeverDown();
+	int GetEndGameSafetySwitch();
 };
 
 typedef enum

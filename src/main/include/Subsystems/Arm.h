@@ -103,11 +103,13 @@ private:
 	double _intakeZeroEncValue;
 	double _intakeZeroAngle;
 	int _intakeEnumSet;
+	double _intakePercentOutput;
 
 	bool _armPIDActive;
 	bool _armAtPIDPosition;
 	int _armPIDSetPoint;
 	int _armEnumSetPoint;
+	double _armPercentOutput;
 
 	void InitArm();
 	void InitIntake();

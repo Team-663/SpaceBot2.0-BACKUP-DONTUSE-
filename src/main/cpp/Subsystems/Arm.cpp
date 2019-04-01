@@ -64,15 +64,23 @@ void Arm::Periodic() {
 
 	if (_intakePIDActive)
 	{
+		_armPercentOutput = 0.0;
 		talonIntake->Set(ControlMode::Position, _intakePIDSetPoint);
-		
 	}
+	else
+	{
+		talonIntake->Set(ControlMode::PercentOutput, _armPercentOutput);
+	}
+
 	if (_armPIDActive)
 	{
+		_intakePercentOutput = 0.0;
 		talonSRX_A1->Set(ControlMode::Position, _armPIDSetPoint);
-		
 	}
-//SpinIntakeByXbox();
+	else
+	{
+		talonSRX_A1->Set(ControlMode::PercentOutput, _armPercentOutput);
+	}
 
 	PrintValues();
 
@@ -109,6 +117,7 @@ void Arm::InitArm()
 	_armPIDSetPoint = GetArmAngleFromTics();
 	_armEnumSetPoint = Arm::E_ARM_DOWN;
 	_armPIDActive = false;
+	_armPercentOutput = 0.0;
 	talonSRX_A1->ConfigReverseSoftLimitEnable(false, kTimeoutMs);
 	talonSRX_A1->ConfigForwardSoftLimitEnable(false, kTimeoutMs);
 
@@ -142,6 +151,7 @@ void Arm::InitIntake()
 
 	ResetIntakeEncoder();
 	_intakePIDSetPoint = 0;
+	_intakePercentOutput = 0.0;
 }
 
 int Arm::GetEncoderAbsoluteRaw()
@@ -226,8 +236,8 @@ int Arm::GetPIDError()
 void Arm::SetArmMotorSpeed(double speed)
 {
 	_armPIDActive = false;
-	talonSRX_A1->Set(ControlMode::PercentOutput, speed);
-
+	//talonSRX_A1->Set(ControlMode::PercentOutput, speed);
+	_armPercentOutput = speed;
 	// TODO: add safety check before allowing motor to move
 }
 
@@ -327,7 +337,8 @@ void Arm::SetIntakeArmMotor(double s)
 {
 	frc::SmartDashboard::PutNumber("IntakeSpeedmanual", s);
 	_intakePIDActive = false;
-	talonIntake->Set(ControlMode::PercentOutput, s);
+	//talonIntake->Set(ControlMode::PercentOutput, s);
+	_intakePercentOutput = s;
 }
 
 double Arm::GetIntakeEncPosition()
@@ -436,9 +447,10 @@ void Arm::PrintValues()
 int Arm::GetArmHeightSetting()
 {
    E_ARM_POSITION arm = E_ARM_INVALID;
-   bool xboxUsed = false;
-   int xboxShift = Robot::oi->GetXboxBumpL();
+   //bool xboxUsed = false;
+   //int xboxShift = Robot::oi->GetXboxBumpL();
    // no shift, buttons score HATCHES
+   /*
    if (!xboxShift)
    {
       if (Robot::oi->GetXboxX())
@@ -464,6 +476,7 @@ int Arm::GetArmHeightSetting()
 
    if (arm != E_ARM_INVALID)
       return (int)arm;
+	*/
 
    if (Robot::oi->getArcadePanel()->GetRawButton(1))
       arm = E_ARM_DOWN;
@@ -486,8 +499,9 @@ int Arm::GetArmHeightSetting()
 
 int Arm::GetIntakeSetting()
 {
-	int dpad = Robot::oi->GetXboxDPad();
 	E_INTAKE_POSITION intake = E_INTAKE_INVALID;
+	/*
+	int dpad = Robot::oi->GetXboxDPad();
     switch (dpad)
     {
         case E_DPAD_UP: 
@@ -503,9 +517,7 @@ int Arm::GetIntakeSetting()
 
 	if (intake != E_INTAKE_INVALID)
 		return (int)intake;
-
-	//bool buttonUp = Robot::oi->getArcadePanel()->GetRawButton(11);
-	//bool buttonDown = Robot::oi->getArcadePanel()->GetRawButton(10);
+	*/
 
 	bool buttonUp = Robot::oi->GetIntakeLeverUp();
 	bool buttonDown = Robot::oi->GetIntakeLeverDown();

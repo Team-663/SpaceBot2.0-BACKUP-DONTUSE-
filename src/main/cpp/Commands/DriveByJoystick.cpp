@@ -32,7 +32,9 @@ void DriveByJoystick::Execute() {
 
     double motorL = 0.0;
     double motorR = 0.0;
-    
+
+    int climbPistonDown = Robot::oi->GetXboxA();
+    int climbPistonRetract = Robot::oi->GetXboxY();
     
     motorL = Robot::oi->getDeadZoneCorrected(Robot::oi->getJoyL()->GetRawAxis(1));
 	motorR = Robot::oi->getDeadZoneCorrected(Robot::oi->getJoyR()->GetRawAxis(1));
@@ -41,6 +43,14 @@ void DriveByJoystick::Execute() {
     
 	Robot::driveTrain->TankDrive(motorL, motorR);
 
+    if (climbPistonDown ^ climbPistonRetract)
+    {
+        if (climbPistonDown)
+            Robot::driveTrain->SetClimbSolenoid(false);
+
+        if (climbPistonRetract)
+            Robot::driveTrain->SetClimbSolenoid(true);
+    }
 }
 
 // Make this return true when this Command no longer needs to run execute()

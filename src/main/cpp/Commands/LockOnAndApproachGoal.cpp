@@ -90,7 +90,7 @@ double LockOnAndApproachGoal::GetTargetAngle(){
 }
 
 void LockOnAndApproachGoal::GetNetworkTable(){
-    table = NetworkTable::GetTable("JETSON/myContoursReport");
+    table = NetworkTable::GetTable("myContoursReport");
 }
 
 void LockOnAndApproachGoal::TurnToAngle(){
@@ -129,7 +129,7 @@ double LockOnAndApproachGoal::GetTargetLocationCam(int t){
 
     if(centerY < yRes/2){
         centerY = centerY * -1.0;
-        centerY = centerY + yRes/2);
+        centerY = centerY + (yRes/2);
         centerY = centerY * -1.0;
     }
     else if(centerY = yRes/2){
