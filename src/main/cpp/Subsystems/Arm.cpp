@@ -62,6 +62,20 @@ void Arm::Periodic() {
 		ResetArmEncoder();
 	}
 
+	int newEndGameSwitch = Robot::oi->GetEndGameSafetySwitch();
+	if (newEndGameSwitch != _endGameSwitched)
+	{
+		if (newEndGameSwitch)
+		{
+			talonIntake->ConfigPeakOutputReverse(-1.0, kTimeoutMs);
+		}
+		else
+		{
+			talonIntake->ConfigPeakOutputReverse(INTAKE_MAX_DOWN_SPEED, kTimeoutMs);
+		}
+	}
+	_endGameSwitched = newEndGameSwitch;
+
 	if (_intakePIDActive)
 	{
 		_armPercentOutput = 0.0;
@@ -79,7 +93,7 @@ void Arm::Periodic() {
 	}
 	else
 	{
-		talonSRX_A1->Set(ControlMode::PercentOutput, _armPercentOutput);
+		talonSRX_A1->Set(ControlMode::PercentOutput, _intakePercentOutput);
 	}
 
 	PrintValues();

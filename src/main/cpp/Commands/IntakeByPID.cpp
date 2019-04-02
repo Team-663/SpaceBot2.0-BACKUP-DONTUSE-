@@ -34,8 +34,8 @@ void IntakeByPID::Execute() {
    
     //int dpad = Robot::oi->GetXboxDPad();
     //int lBump = Robot::oi->GetXboxBumpL();
-    double xboxLeftStick = Robot::oi->GetXboxLeftY(true);
-    double xboxRightStick = Robot::oi->GetXboxRightY(true);
+    double xboxLeftStick = -1.0*Robot::oi->GetXboxRightY(true);
+    double xboxRightStick = -1.0*Robot::oi->GetXboxLeftY(true);
 
     int useXbox = Robot::oi->GetEndGameSafetySwitch();
 
