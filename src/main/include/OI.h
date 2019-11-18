@@ -33,14 +33,6 @@ private:
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	std::shared_ptr<frc::Joystick> arcadePanel;
 	std::shared_ptr<frc::Joystick> joyR;
 	std::shared_ptr<frc::Joystick> joyL;

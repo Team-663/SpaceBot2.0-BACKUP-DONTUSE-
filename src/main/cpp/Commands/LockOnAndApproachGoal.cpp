@@ -8,20 +8,11 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
+//Progress Report:
 
-//Progress -> Full Automation   %88
-//Progress -> Lock On           COMPLETE
-
-//Determine Angle From NetworkTables                            #
-//Determine Distance from Rocket                                #
-//Create System to turn to angle                                #
-//Create System to get exact location of Rocket                 #
-//Create System to compute trajectory                           #
-//Create System to drive in trajectory                          #
-//Refine/Streamline/Complete                                    0
-
-
-
+//Incorperating BNP        | |
+//Light Indecator          | |
+//Testing                  | |
 
 #include "Commands/LockOnAndApproachGoal.h"
 
@@ -51,7 +42,7 @@ void LockOnAndApproachGoal::Execute() {
         GotoRocket();
     }
     else{
-       TurnToAngle();
+       TurnToAngle(targetAngle);
     }
 
 }
@@ -90,10 +81,10 @@ double LockOnAndApproachGoal::GetTargetAngle(){
 }
 
 void LockOnAndApproachGoal::GetNetworkTable(){
-    table = NetworkTable::GetTable("myContoursReport");
+    table = NetworkTable::GetTable("raspi/myContoursReport");
 }
 
-void LockOnAndApproachGoal::TurnToAngle(targetAngle){
+void LockOnAndApproachGoal::TurnToAngle(double targetAngle){
     //Difference between target and current angle
     t_error = currentAngle - targetAngle;
 
