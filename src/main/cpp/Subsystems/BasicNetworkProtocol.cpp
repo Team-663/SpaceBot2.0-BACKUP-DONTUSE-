@@ -33,7 +33,7 @@ void BasicNetworkProtocol::InitDefaultCommand() {
 
 void BasicNetworkProtocol::Periodic() {
     // Put code here to be run every loop   
-    if (GetSetup()) {
+    if (GetSetup() == 2) {
         recvData(GetSock());
     }
 }
@@ -46,5 +46,5 @@ void BasicNetworkProtocol::Periodic() {
 // here. Call these from Commands.
 
 void BasicNetworkProtocol::DisplayVars(){
-    frc::SmartDashboard::PutBoolean("Is BNP Setup", GetSetup());
+    frc::SmartDashboard::PutNumber("BNP Setup Status", GetSetup());
 }

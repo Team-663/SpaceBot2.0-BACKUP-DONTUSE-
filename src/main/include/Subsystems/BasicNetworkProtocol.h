@@ -95,8 +95,8 @@ public:
     string getStr(string name);
 
 	//Fetching
-	int GetSock();
-	bool GetSetup();
+	int GetSock();  //Returns connected socket or 0
+	int GetSetup(); //Returns 0 for not connected, 1 for connecting, 2 for connected
 
 	//Display On Dash
 	void DisplayVars();

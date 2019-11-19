@@ -13,6 +13,7 @@
 
 bool isClient = false;
 bool isSetup = false;
+bool connecting = false;
 int userPort = BN_PORT;
 string sesKey;
 
@@ -73,7 +74,7 @@ void StartBNPServer::Interrupted() {
  * Basic Network Protocol Setup and Recv *
  *****************************************/
 int BasicNetworkProtocol::setupServer(){
-    int serverfd, new_socket, valread; 
+    int serverfd, new_socket, valread;
     struct sockaddr_in address; 
     int addrlen = sizeof(address); 
     int opt = 1;
@@ -99,18 +100,20 @@ int BasicNetworkProtocol::setupServer(){
     } 
     
     //Listen for connection
-    if (listen(serverfd, 3) < 0){ 
+    connecting = true;
+    if (listen(serverfd, 4) < 0){ 
         perror("listen"); 
-        exit(EXIT_FAILURE); 
-    } 
+        connecting = false;
+        exit(EXIT_FAILURE);
+    }
+    
     
     if ((new_socket = accept(serverfd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0){ 
         perror("accept"); 
         exit(EXIT_FAILURE); 
     } 
     
-
-    
+    connecting = false;
     isSetup = true;
     isClient = false;
     return 0;
@@ -229,12 +232,20 @@ string BasicNetworkProtocol::decrypt(string encryptedData, int encryptionAlg){
  *                 Misc                  *
  *****************************************/
 int BasicNetworkProtocol::GetSock(){
-    if (new_socket != NULL){
-        return new_socket;
+    if (isSetup){
+        if (new_socket != NULL){
+            return new_socket;
+        }
     }
-    else return 0;
+    return 0;
 }
 
-bool BasicNetworkProtocol::GetSetup(){
-    return isSetup;
+int BasicNetworkProtocol::GetSetup(){
+    if (isSetup){
+        return 2;
+    }
+    else if (connecting){
+        return 1;
+    }
+    return 0;
 }
