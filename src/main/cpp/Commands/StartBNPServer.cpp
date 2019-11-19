@@ -47,6 +47,9 @@ void StartBNPServer::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void StartBNPServer::Execute() {
+    if (!isSetup) {
+        Robot::basicNetworkProtocol->setupServer();
+    }
 
 }
 
@@ -220,4 +223,18 @@ string BasicNetworkProtocol::encrypt(string data, int encryptionAlg){
 string BasicNetworkProtocol::decrypt(string encryptedData, int encryptionAlg){
     string data;
     return data;
+}
+
+/*****************************************
+ *                 Misc                  *
+ *****************************************/
+int BasicNetworkProtocol::GetSock(){
+    if (new_socket != NULL){
+        return new_socket;
+    }
+    else return 0;
+}
+
+bool BasicNetworkProtocol::GetSetup(){
+    return isSetup;
 }

@@ -35,7 +35,7 @@ using namespace std;
 /**
  *
  *
- * @author ExampleAuthor
+ * @author daggerwolf45
  */
 class BasicNetworkProtocol: public frc::Subsystem {
 private:
@@ -94,6 +94,12 @@ public:
     int getInt(string name);
     string getStr(string name);
 
+	//Fetching
+	int GetSock();
+	bool GetSetup();
+
+	//Display On Dash
+	void DisplayVars();
 };
 
 #endif
